@@ -42,19 +42,19 @@ void right_rotate(rbtree *t, node_t *x) {
   y->right = x;
   x->parent = y;
 }
-void post_order_delete(rbtree *t, node_t *node) { // 후위순회로 노드들 지워줌
+void post_order_delete(rbtree *t, node_t *node) {  // 후위순회로 노드들 지워줌
   if (node != t->nil){
     post_order_delete(t, node->left);
     post_order_delete(t, node->right);
     free(node);
-    node = NULL; // 포인터 NULL로 설정
+    node = NULL;  // 포인터 NULL로 설정
   }
 }
 void delete_rbtree(rbtree *t) {
-  post_order_delete(t, t->root); // 딸려 있는 노드 전체 free
-  free(t->nil); // nil노드 free
+  post_order_delete(t, t->root);  // 딸려 있는 노드 전체 free
+  free(t->nil);  // nil노드 free
   t->nil = NULL;
-  free(t); // 트리 free
+  free(t);  // 트리 free
   t = NULL;
 }
 void rbtree_insert_fixup(rbtree *t, node_t *fix_node) {
@@ -156,7 +156,7 @@ node_t *subtree_min(rbtree *t, node_t *root) {
   return p;
 }
 node_t *rbtree_max(const rbtree *t) {
-  node_t *p = t->nil; // x의 부모
+  node_t *p = t->nil;  // x의 부모
   node_t *x = t->root;
   while (x != t->nil) {
     p = x;
@@ -200,7 +200,7 @@ void rbtree_delete_fixup(rbtree *t, node_t *x) {
           right_rotate(t, sibling);
           sibling = x->parent->right;
         }
-        // 경우4
+        // 경우 4.
         sibling->color = x->parent->color;
         x->parent->color = RBTREE_BLACK;
         sibling->right->color = RBTREE_BLACK;
@@ -247,7 +247,7 @@ int rbtree_erase(rbtree *t, node_t *delete_node) {
   node_t *y = delete_node;
   node_t *x = NULL;  // 삭제된 노드의 위치(extra black을 붙이기 위한)를 가리킴
   color_t y_original_color = y->color;
-  if (delete_node->left == t->nil) {  // 삭제할 노드의 왼쪽 자식이 없는 경우 , 둘다 없는 경우
+  if (delete_node->left == t->nil) {  // 삭제할 노드의 왼쪽 자식이 없는 경우, 둘다 없는 경우
     x = delete_node->right;
     rbtree_transplant(t, delete_node, delete_node->right);  // 삭제될 노드의 오른쪽 자식을 삭제될 노드 자리에 넣어줌 -> delete_node 없어짐
   }
@@ -287,7 +287,6 @@ void in_order(const rbtree *t, node_t *node, key_t *arr, int *i) {
   }
 }
 int rbtree_to_array(const rbtree *t, key_t *arr, const size_t n) {
-  // TODO: implement to_array
   int i  = 0;
   in_order(t, t->root, arr, &i);
   return 0;
